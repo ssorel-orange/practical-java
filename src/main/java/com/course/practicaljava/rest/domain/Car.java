@@ -25,6 +25,10 @@ public class Car {
 	private Date firstReleaseDate;
 
 	private List<String> additionalFeatures;
+	
+	private Engine engine;
+	
+	private List<Tire> compatibleTires;
 
 	public Car() {
 		super();
@@ -50,6 +54,20 @@ public class Car {
 
 	public String getColor() {
 		return color;
+	}
+
+	/**
+	 * @return the compatibleTires
+	 */
+	public List<Tire> getCompatibleTires() {
+		return compatibleTires;
+	}
+
+	/**
+	 * @return the engine
+	 */
+	public Engine getEngine() {
+		return engine;
 	}
 
 	/**
@@ -100,6 +118,20 @@ public class Car {
 	}
 
 	/**
+	 * @param compatibleTires the compatibleTires to set
+	 */
+	public void setCompatibleTires(List<Tire> compatibleTires) {
+		this.compatibleTires = compatibleTires;
+	}
+
+	/**
+	 * @param engine the engine to set
+	 */
+	public void setEngine(Engine engine) {
+		this.engine = engine;
+	}
+
+	/**
 	 * @param firstReleaseDate the firstReleaseDate to set
 	 */
 	public void setFirstReleaseDate(Date firstReleaseDate) {
@@ -120,7 +152,8 @@ public class Car {
 	@Override
 	public String toString() {
 		return "Car [brand=" + brand + ", color=" + color + ", type=" + type + ", price=" + price + ", available="
-				+ available + ", firstReleaseDate=" + firstReleaseDate + "]";
+				+ available + ", firstReleaseDate=" + firstReleaseDate + ", additionalFeatures=" + additionalFeatures
+				+ ", engine=" + engine + ", compatibleTires=" + compatibleTires + "]";
 	}
 
 }
