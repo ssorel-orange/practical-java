@@ -4,6 +4,7 @@
 package com.course.practicaljava.rest.domain;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author steph
@@ -23,6 +24,8 @@ public class Car {
 
 	private Date firstReleaseDate;
 
+	private List<String> additionalFeatures;
+
 	public Car() {
 		super();
 	}
@@ -32,6 +35,13 @@ public class Car {
 		this.brand = brand;
 		this.color = color;
 		this.type = type;
+	}
+
+	/**
+	 * @return the additionalFeatures
+	 */
+	public List<String> getAdditionalFeatures() {
+		return additionalFeatures;
 	}
 
 	public String getBrand() {
@@ -65,6 +75,13 @@ public class Car {
 	 */
 	public boolean isAvailable() {
 		return available;
+	}
+
+	/**
+	 * @param additionalFeatures the additionalFeatures to set
+	 */
+	public void setAdditionalFeatures(List<String> additionalFeatures) {
+		this.additionalFeatures = additionalFeatures;
 	}
 
 	/**
@@ -105,7 +122,5 @@ public class Car {
 		return "Car [brand=" + brand + ", color=" + color + ", type=" + type + ", price=" + price + ", available="
 				+ available + ", firstReleaseDate=" + firstReleaseDate + "]";
 	}
-
-	
 
 }
