@@ -3,20 +3,23 @@
  */
 package com.course.practicaljava.rest.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * @author steph
  *
  */
 public class Tire {
-	
+
 	private String manufacturer;
-	
+	@JsonProperty("diameter")
 	private int size;
-	
+	@JsonIgnore
 	private int price;
 
-	public Tire () {
-		
+	public Tire() {
+
 	}
 
 	public Tire(String manufacturer, int size, int price) {
@@ -67,7 +70,7 @@ public class Tire {
 	public void setSize(int size) {
 		this.size = size;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Tire [manufacturer=" + manufacturer + ", size=" + size + ", price=" + price + "]";

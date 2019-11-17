@@ -6,10 +6,18 @@ package com.course.practicaljava.rest.domain;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
 /**
  * @author steph
  *
  */
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class Car {
 
 	private String brand;
@@ -17,18 +25,20 @@ public class Car {
 	private String color;
 
 	private String type;
-
+   
 	private int price;
 
 	private boolean available;
-
+	@JsonFormat(pattern = "dd-MMM-yyyy hh:mm:ssaZ", timezone = "Asia/Jakarta")
 	private Date firstReleaseDate;
-
+	@JsonInclude(value = Include.NON_EMPTY)
 	private List<String> additionalFeatures;
-	
+    @JsonUnwrapped
 	private Engine engine;
-	
+
 	private List<Tire> compatibleTires;
+	@JsonInclude(value = Include.NON_EMPTY)
+	private String secretFeature;
 
 	public Car() {
 		super();
@@ -82,6 +92,13 @@ public class Car {
 	 */
 	public int getPrice() {
 		return price;
+	}
+
+	/**
+	 * @return the secretFeature
+	 */
+	public String getSecretFeature() {
+		return secretFeature;
 	}
 
 	public String getType() {
@@ -145,6 +162,13 @@ public class Car {
 		this.price = price;
 	}
 
+	/**
+	 * @param secretFeature the secretFeature to set
+	 */
+	public void setSecretFeature(String secretFeature) {
+		this.secretFeature = secretFeature;
+	}
+
 	public void setType(String type) {
 		this.type = type;
 	}
@@ -153,7 +177,8 @@ public class Car {
 	public String toString() {
 		return "Car [brand=" + brand + ", color=" + color + ", type=" + type + ", price=" + price + ", available="
 				+ available + ", firstReleaseDate=" + firstReleaseDate + ", additionalFeatures=" + additionalFeatures
-				+ ", engine=" + engine + ", compatibleTires=" + compatibleTires + "]";
+				+ ", engine=" + engine + ", compatibleTires=" + compatibleTires + ", secretFeature=" + secretFeature
+				+ "]";
 	}
 
 }

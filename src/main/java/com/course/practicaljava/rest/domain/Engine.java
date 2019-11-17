@@ -3,15 +3,22 @@
  */
 package com.course.practicaljava.rest.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author steph
  *
  */
+@JsonIgnoreProperties({"color", "serialNumber"})
 public class Engine {
 
 	private String fuelType;
 
 	private int horsePower;
+	
+	private String color;
+	
+	private String serialNumber;
 
 	/**
 	 * 
@@ -55,7 +62,36 @@ public class Engine {
 	}
 	@Override
 	public String toString() {
-		return "Engine [fuelType=" + fuelType + ", horsePower=" + horsePower + "]";
+		return "Engine [fuelType=" + fuelType + ", horsePower=" + horsePower + ", color=" + color + ", serialNumber="
+				+ serialNumber + "]";
+	}
+
+	/**
+	 * @return the color
+	 */
+	public String getColor() {
+		return color;
+	}
+
+	/**
+	 * @param color the color to set
+	 */
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	/**
+	 * @return the serialNumber
+	 */
+	public String getSerialNumber() {
+		return serialNumber;
+	}
+
+	/**
+	 * @param serialNumber the serialNumber to set
+	 */
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
 	}
 
 }
