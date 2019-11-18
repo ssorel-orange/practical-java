@@ -6,6 +6,12 @@ package com.course.practicaljava.rest.domain;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.DateFormat;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -17,7 +23,8 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
  * @author steph
  *
  */
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+
+@Document(indexName = "practical-java", type = "car")
 public class Car {
 
 	private String brand;
@@ -25,20 +32,23 @@ public class Car {
 	private String color;
 
 	private String type;
-   
+
 	private int price;
 
 	private boolean available;
-	@JsonFormat(pattern = "dd-MMM-yyyy hh:mm:ssaZ", timezone = "Asia/Jakarta")
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = "Asia/Jakarta")
+	@Field (type = FieldType.Date, format= DateFormat.date_time)
 	private Date firstReleaseDate;
 	@JsonInclude(value = Include.NON_EMPTY)
 	private List<String> additionalFeatures;
-    @JsonUnwrapped
+	//@JsonUnwrapped
 	private Engine engine;
 
 	private List<Tire> compatibleTires;
 	@JsonInclude(value = Include.NON_EMPTY)
 	private String secretFeature;
+	@Id
+	private String id;
 
 	public Car() {
 		super();
@@ -85,6 +95,10 @@ public class Car {
 	 */
 	public Date getFirstReleaseDate() {
 		return firstReleaseDate;
+	}
+
+	public String getId() {
+		return id;
 	}
 
 	/**
@@ -153,6 +167,10 @@ public class Car {
 	 */
 	public void setFirstReleaseDate(Date firstReleaseDate) {
 		this.firstReleaseDate = firstReleaseDate;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	/**

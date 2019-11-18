@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '2.2.0.RELEASE'
+	id 'org.springframework.boot' version '2.1.0.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'java'
 	
@@ -12,18 +12,22 @@ sourceCompatibility = '1.11'
 repositories {
 	mavenCentral()
 }
-
+ 
 ext {
 	commonsLang3Version = '3.8.1'
+	elasticSearchVersion = '6.5.0'
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+    
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 	// https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
-    compile "org.apache.commons:commons-lang3:${commonsLang3Version}"
+    compile "org.apache.commons:commons-lang3:${commonsLang3Version}",
+            "org.elasticsearch.client:transport:${elasticSearchVersion}"
     
     compileOnly("org.springframework.boot:spring-boot-devtools") 
 

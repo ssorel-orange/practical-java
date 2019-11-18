@@ -3,13 +3,11 @@
  */
 package com.course.practicaljava.rest.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 /**
  * @author steph
  *
  */
-@JsonIgnoreProperties({"color", "serialNumber"})
+
 public class Engine {
 
 	private String fuelType;

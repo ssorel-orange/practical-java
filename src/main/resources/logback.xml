@@ -46,7 +46,7 @@
 
 	<!-- append everything unde package com.course on level INFO, WARN, ERROR. 
 		Log into console appender AND file appender -->
-	<logger name="com.course" level="info" additivity="false">
+	<logger name="com.course" level="debug" additivity="false">
 		<appender-ref ref="stdout" />
 		<appender-ref ref="file" />
 	</logger>
