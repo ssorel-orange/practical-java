@@ -19,6 +19,6 @@ public interface CarElasticRepository extends ElasticsearchRepository<Car,String
 
 	public List<Car> findByBrandAndColor(String brand, String color);
 	
-	
+	public List<Car> findByFirstReleaseDateAfter (long date);
 	
 }
