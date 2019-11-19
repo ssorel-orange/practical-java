@@ -20,6 +20,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -104,16 +105,19 @@ public class CarRestController {
 		headers.add("Custom", "Custom");
 		if (StringUtils.isNumeric(color)) {
 			var errorResponse = new ErrorResponse("Invalid Color", System.currentTimeMillis());
-			return new ResponseEntity<>(errorResponse,headers, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(errorResponse, headers, HttpStatus.BAD_REQUEST);
 		}
 		var cars = carRepository.findByBrandAndColor(brand, color, pageable).getContent();
-		
+
 		return ResponseEntity.ok().headers(headers).body(cars);
 	}
 
 	@GetMapping(path = "/cars")
 	public List<Car> findCarsByParam(@RequestParam String brand, @RequestParam String color,
 			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+		if (StringUtils.isNumeric(color)) {
+			throw new IllegalArgumentException("Invalid Color  : " + color);
+		}
 		var pageable = PageRequest.of(page, size);
 		return carRepository.findByBrandAndColor(brand, color, pageable).getContent();
 	}
@@ -123,4 +127,13 @@ public class CarRestController {
 			@RequestParam(name = "first_released_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date firstReleasedDate) {
 		return carRepository.findByFirstReleaseDateAfter(firstReleasedDate.getTime());
 	}
+	@ExceptionHandler (IllegalArgumentException.class)
+	public ResponseEntity<ErrorResponse> handleInvalidColorsException (IllegalArgumentException ie ){
+		var errorMessages = "Exception : " + ie.getMessage();
+		logger.error(errorMessages);
+		var errorResponse = new ErrorResponse(errorMessages, System.currentTimeMillis());
+		return new ResponseEntity<>(errorResponse, null, HttpStatus.BAD_REQUEST);
+		
+	}
+	
 }
