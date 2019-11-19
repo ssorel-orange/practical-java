@@ -11,6 +11,9 @@ import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -88,17 +91,22 @@ public class CarRestController {
 	}
 
 	@GetMapping(path = "/cars/{brand}/{color}")
-	public List<Car> findCarsByPath(@PathVariable String brand, @PathVariable String color) {
-		return carRepository.findByBrandAndColor(brand, color);
+	public List<Car> findCarsByPath(@PathVariable String brand, @PathVariable String color,
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+		var pageable = PageRequest.of(page, size, Sort.by(Direction.DESC, "price"));
+		return carRepository.findByBrandAndColor(brand, color, pageable).getContent();
 	}
 
 	@GetMapping(path = "/cars")
-	public List<Car> findCarsByParam(@RequestParam String brand, @RequestParam String color) {
-		return carRepository.findByBrandAndColor(brand, color);
+	public List<Car> findCarsByParam(@RequestParam String brand, @RequestParam String color,
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+		var pageable = PageRequest.of(page, size);
+		return carRepository.findByBrandAndColor(brand, color, pageable).getContent();
 	}
-	
-	@GetMapping(path ="/cars/date")
-	public List<Car> findCarsReleasedAfter (@RequestParam (name="first_released_date") @DateTimeFormat (pattern ="yyyy-MM-dd") Date firstReleasedDate){
+
+	@GetMapping(path = "/cars/date")
+	public List<Car> findCarsReleasedAfter(
+			@RequestParam(name = "first_released_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date firstReleasedDate) {
 		return carRepository.findByFirstReleaseDateAfter(firstReleasedDate.getTime());
 	}
 }
