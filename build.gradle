@@ -16,6 +16,8 @@ repositories {
 ext {
 	commonsLang3Version = '3.8.1'
 	elasticSearchVersion = '6.5.0'
+    junitVersion = '5.3.1'
+	junitPlatformVersion = '1.4.1'
 }
 
 dependencies {
@@ -30,9 +32,12 @@ dependencies {
             "org.elasticsearch.client:transport:${elasticSearchVersion}"
     
     compileOnly("org.springframework.boot:spring-boot-devtools") 
-
 	
-}
+	testCompile "org.junit.jupiter:junit-jupiter-engine:${junitVersion}",
+		        "org.junit.jupiter:junit-jupiter-api:${junitVersion}",
+		        "org.junit.platform:junit-platform-launcher:${junitPlatformVersion}"
+	
+} 
 
 test {
 	useJUnitPlatform()
