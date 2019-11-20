@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.course.practicaljava.exception.IllegalApiParamException;
 import com.course.practicaljava.repository.CarElasticRepository;
 import com.course.practicaljava.rest.domain.Car;
 import com.course.practicaljava.rest.domain.ErrorResponse;
@@ -118,6 +119,10 @@ public class CarRestController {
 		if (StringUtils.isNumeric(color)) {
 			throw new IllegalArgumentException("Invalid Color  : " + color);
 		}
+		if (StringUtils.isNumeric(brand)) {
+			throw new IllegalApiParamException("Invalid brand : " + brand);
+		}
+
 		var pageable = PageRequest.of(page, size);
 		return carRepository.findByBrandAndColor(brand, color, pageable).getContent();
 	}
@@ -127,13 +132,23 @@ public class CarRestController {
 			@RequestParam(name = "first_released_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date firstReleasedDate) {
 		return carRepository.findByFirstReleaseDateAfter(firstReleasedDate.getTime());
 	}
-	@ExceptionHandler (IllegalArgumentException.class)
-	public ResponseEntity<ErrorResponse> handleInvalidColorsException (IllegalArgumentException ie ){
+
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<ErrorResponse> handleInvalidColorsException(IllegalArgumentException ie) {
 		var errorMessages = "Exception : " + ie.getMessage();
 		logger.error(errorMessages);
 		var errorResponse = new ErrorResponse(errorMessages, System.currentTimeMillis());
 		return new ResponseEntity<>(errorResponse, null, HttpStatus.BAD_REQUEST);
-		
+
+	}
+
+	@ExceptionHandler(IllegalApiParamException.class)
+	public ResponseEntity<ErrorResponse> handleApiParamException(IllegalApiParamException ie) {
+		var errorMessages = "Exception : " + ie.getMessage();
+		logger.error(errorMessages);
+		var errorResponse = new ErrorResponse(errorMessages, System.currentTimeMillis());
+		return new ResponseEntity<>(errorResponse, null, HttpStatus.BAD_REQUEST);
+
 	}
 	
 }
