@@ -19,6 +19,7 @@ ext {
     junitVersion = '5.3.1'
 	junitPlatformVersion = '1.4.1'
 	micrometerRegistryVersion ='1.1.0'  
+	springfoxVersion = '2.9.2'
 }
 
 dependencies {
@@ -32,9 +33,11 @@ dependencies {
 	}
 	// https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
     compile "org.apache.commons:commons-lang3:${commonsLang3Version}",
-            "org.elasticsearch.client:transport:${elasticSearchVersion}"
+            "org.elasticsearch.client:transport:${elasticSearchVersion}",
+            "io.springfox:springfox-swagger2:${springfoxVersion}",
+		    "io.springfox:springfox-swagger-ui:${springfoxVersion}"
     
-    compileOnly("org.springframework.boot:spring-boot-devtools") 
+    compileOnly("org.springframework.boot:spring-boot-devtools")   
 	
 	testCompile "org.junit.jupiter:junit-jupiter-engine:${junitVersion}",
 		        "org.junit.jupiter:junit-jupiter-api:${junitVersion}",

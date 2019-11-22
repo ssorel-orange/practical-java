@@ -36,6 +36,11 @@ import com.course.practicaljava.rest.domain.Car;
 import com.course.practicaljava.rest.domain.ErrorResponse;
 import com.course.practicaljava.rest.service.CarService;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 /**
  * @author steph
  *
@@ -58,8 +63,9 @@ public class CarRestController {
 
 	}
 
+	@ApiOperation(value = "Echo car from request body")
 	@PostMapping(path = "/echo", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public String echo(@RequestBody Car car) {
+	public String echo(@ApiParam(value = "Car for echo") @RequestBody Car car) {
 		logger.info("The car is " + car);
 		return car.toString();
 	}
@@ -86,8 +92,9 @@ public class CarRestController {
 		return newCar;
 	}
 
+	@ApiOperation(value = "Find car by ID")
 	@GetMapping(path = "/cars/{id}")
-	public Car findCarsById(@PathVariable String id) {
+	public Car findCarsById(@ApiParam(value = "ID of car") @PathVariable String id) {
 		return carRepository.findById(id).orElse(null);
 	}
 
@@ -98,6 +105,9 @@ public class CarRestController {
 	}
 
 	@GetMapping(path = "/cars/{brand}/{color}")
+	@ApiResponses({
+			@ApiResponse(code = 400, message = "Invalid parameter (numeric color)", response = ErrorResponse.class),
+			@ApiResponse(code = 200, message = "Return cars with specific brand and color", response = Car.class, responseContainer = "List") })
 	public ResponseEntity<Object> findCarsByPath(@PathVariable String brand, @PathVariable String color,
 			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
 		var pageable = PageRequest.of(page, size, Sort.by(Direction.DESC, "price"));
@@ -150,5 +160,5 @@ public class CarRestController {
 		return new ResponseEntity<>(errorResponse, null, HttpStatus.BAD_REQUEST);
 
 	}
-	
+
 }
